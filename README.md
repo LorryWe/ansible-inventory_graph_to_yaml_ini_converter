@@ -25,11 +25,9 @@ Next run:
 ## Create inventory_hostgroups_and_nodes file:
 Next, use the convert_graph_inventory.py utility script converter to create an inventory file in yaml or ini format:
 
-======== BEGIN WORK IN PROGRESS
 `./convert_graph_inventory.py -i somefile_inventory.txt -f foreman_server_name_`
 
 Note - Although optional, setting a foreman_server_name_ ensures you can uniquely refer to hostgroups when using inventory_hostgroups_and_nodes files from mulitple foreman servers... especially where some managed nodes may not be contained within a hostgroup, so appear in 'ungrouped'
-======== END WORK IN PROGRESS
 
 ## Update inventory_vars file:
 Copy and edit supplied inventory_vars files - e.g. set appropriate variable names and values, plus hostgroup names (depending on inventory_hostgroups_and_nodes file)
