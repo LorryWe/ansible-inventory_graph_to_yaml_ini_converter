@@ -18,7 +18,7 @@ def main(argv):
 	inputfile = ""
 	outputfile = ""
 	outputlines = []
-	formatoutput = ""
+	formatoutput = "yaml"
 	uniqueref = ""
 	usage = 'Usage: convert_graph_inventory.py -i <output from ansible-inventory --graph> [-u <unique ref, e.g. foremanservername>] [-o <outputfile>] [-f <format> default yaml or ini]'
 	
@@ -51,37 +51,72 @@ def main(argv):
                 print("Something is wrong with inputfile ",inputfile)
 
 	# Process listin
-	for line in listin:
-        	# Tidy up end of all lines
-        	if line.endswith ('\n'):
-        	        line = line[:-1]
+	if formatoutput == "yaml":
+		for line in listin:
+        		# Tidy up end of all lines
+        		if line.endswith ('\n'):
+        		        line = line[:-1]
 
-        	# Process header
-		header = re.match(headermatch,line)
-		if header:
-			line = re.sub(headermatch,"",line)
-        		line = re.sub(r"(.*)","---",line)
-			outputlines.append(line)
+        		# Process header
+			header = re.match(headermatch,line)
+			if header:
+				line = re.sub(headermatch,"",line)
+        			line = re.sub(r"(.*)","---",line)
+				outputlines.append(line)
 
-        	# Process groupname
-        	groupname = re.match(groupnamematch,line)
-        	if groupname:
-			ungrouped = re.match(ungroupedmatch,line)
-			if ungrouped:
-				line = re.sub(ungroupedmatch,"",line)
-				line = re.sub(r"(.*)","foreman_ungrouped:",line)
-			line = re.sub(groupnamematch,"",line)
-			line = re.sub(r"(.*)","  \g<1>",line)
-			line = re.sub("foreman_",uniqueref+"_",line)
-        	        outputlines.append(line)
-        	        outputlines.append("    hosts:")
+	        	# Process groupname
+        		groupname = re.match(groupnamematch,line)
+        		if groupname:
+				ungrouped = re.match(ungroupedmatch,line)
+				if ungrouped:
+					line = re.sub(ungroupedmatch,"",line)
+					line = re.sub(r"(.*)","foreman_ungrouped:",line)
+				line = re.sub(groupnamematch,"",line)
+				line = re.sub(r"(.*)","  \g<1>",line)
+				line = re.sub("foreman_",uniqueref+"_",line)
+        		        outputlines.append(line)
+        		        outputlines.append("    hosts:")
 
-        	# Process managednode name
-        	managednode = re.match(managednodematch,line)
-        	if managednode:
-			line = re.sub(managednodematch,"",line)
-        	        line = re.sub(r"(.*)","      \g<1>:",line)
-        	        outputlines.append(line)
+        		# Process managednode name
+        		managednode = re.match(managednodematch,line)
+        		if managednode:
+				line = re.sub(managednodematch,"",line)
+        		        line = re.sub(r"(.*)","      \g<1>:",line)
+        		        outputlines.append(line)
+	elif formatoutput == "ini":
+        	for line in listin:
+                	# Tidy up end of all lines
+                	if line.endswith ('\n'):
+                	        line = line[:-1]
+
+                	# Process header
+                	header = re.match(headermatch,line)
+                	if header:
+				continue
+
+			# Process groupname
+                	groupname = re.match(groupnamematch,line)
+                	if groupname:
+                	        ungrouped = re.match(ungroupedmatch,line)
+                	        if ungrouped:
+                	                line = re.sub(ungroupedmatch,"",line)
+                	                line = re.sub(r"(.*)","foreman_ungrouped:",line)
+				line = line[:-1]
+                	        line = re.sub(groupnamematch,"",line)
+                	        line = re.sub(r"(.*)","[\g<1>]",line)
+                	        line = re.sub("foreman_",uniqueref+"_",line)
+                	        outputlines.append(line)
+
+                	# Process managednode name
+                	managednode = re.match(managednodematch,line)
+                	if managednode:
+                	        line = re.sub(managednodematch,"",line)
+                	        line = re.sub(r"(.*)","\g<1>",line)
+                	        outputlines.append(line)
+	else:
+		print("Something is wrong with formatoutput, please use default of 'yaml', or 'ini'")
+		exit(1)
+
 	# Ouput to screen or file
 	if outputfile == "":
 		for line in list(outputlines):
