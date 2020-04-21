@@ -5,7 +5,7 @@ Converts ansible-inventory --graph output to yaml or ini format for ansible use
 Use the convert_graph_inventory.py script to convert graph output from built in ansible plugin: foreman-inventory (contains list of hostgroups and managed nodes), into a yaml inventory format (soon to be ini format too) which is useable by ansible for 'other stuff'.
 
 ## Usage:
-`convert_graph_inventory.py -i <output from ansible-inventory --graph> [-f \<foremanservername\>] [-o \<outputfile\>]'`
+`convert_graph_inventory.py -i <output from ansible-inventory --graph> [-f <foremanservername>] [-o <outputfile>]'`
 
 ## Create initial graph inventory file from foreman:
 The script requires graph output to pre-exist in a text file. Create graph output inventory file by renaming foreman.yaml.template file to your_foreman_foreman.yaml, then edit appropriately to enable access your foreman instance.
