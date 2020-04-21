@@ -1,0 +1,4 @@
+---
+  test_group_provisionfromforeman_test:
+    vars:
+      message_from_inventory: hello from yaml inventory

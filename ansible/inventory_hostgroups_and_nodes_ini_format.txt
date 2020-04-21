@@ -1,0 +1,4 @@
+[test_group_provisionfromforeman_test]
+vmxx.example.net
+[test_group_provisionfromforeman_ungrouped]
+vmyy.example.net

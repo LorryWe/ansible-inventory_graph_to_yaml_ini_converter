@@ -1,0 +1,9 @@
+- hosts: <group as listed in inventory_hostgroups_and_nodes file> 
+  vars:
+    message: "{{ message_from_inventory }}"
+  remote_user: root
+  gather_facts: no
+  serial: 1
+  tasks:
+  - name: make file with message
+    shell: bash -c "echo `date` {{ message }} >> /tmp/testfile"

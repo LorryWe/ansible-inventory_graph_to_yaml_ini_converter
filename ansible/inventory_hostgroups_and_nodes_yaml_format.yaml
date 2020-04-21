@@ -1,0 +1,7 @@
+---
+  test_group_provisionfromforeman_test:
+    hosts:
+      vmxx.example.net:
+  test_group_provisionfromforeman_ungrouped:
+    hosts:
+      vmyy.example.net:

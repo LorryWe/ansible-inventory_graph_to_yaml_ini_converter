@@ -1,0 +1,13 @@
+@all:
+  |--@foreman_provisionfromcentos7_mac_lorrylan_net_dev_nodes:
+  |  |--vm21.lorrylan.net
+  |  |--vm24.lorrylan.net
+  |  |--vm25.lorrylan.net
+  |  |--vm28.lorrylan.net
+  |--@foreman_provisionfromcentos7_mac_lorrylan_net_dev_nodes_test:
+  |  |--vm27.lorrylan.net
+  |--@foreman_provisionfromcentos7_mac_lorrylan_net_physical:
+  |  |--phys1.lorrylan.net
+  |--@ungrouped:
+  |  |--birdbox2.home
+  |  |--centos7-mac.lorrylan.net
