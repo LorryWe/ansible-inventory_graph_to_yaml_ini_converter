@@ -3,4 +3,3 @@ url: https://<foreman server fqdn>/
 user: admin
 password: *******
 ssl_verify: False
-group_prefix: something_unique_to_preamble_groupnames_maybe_foreman_fqdn_

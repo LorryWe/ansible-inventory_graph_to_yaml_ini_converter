@@ -18,8 +18,6 @@ The instructions below describe how to use the script, plus provide a simple exa
 ## Create inventory_graph_format file:
 Create a inventory_graph_format file by renaming foreman.yaml.template file to your_foreman_foreman.yaml, then edit appropriately to enable access your foreman instance (e.g. using normal or api user).
 
-Note: If later on, you intend to use inventories from multiple foreman servers make sure you set group_prefix, to something unique. This will ensure you can still uniquely refer to hostgroups from different foreman servers, even where they have the same local name.
-
 Next run:
 
 `ansible-inventory -i ./your_foreman_foreman.yaml --graph --output somefile_inventory.txt`
@@ -28,7 +26,9 @@ Next run:
 Next, use the convert_graph_inventory.py utility script converter to create an inventory file in yaml or ini format:
 
 ======== BEGIN WORK IN PROGRESS
-`./convert_graph_inventory.py -i somefile_inventory.txt -f foremantest`
+`./convert_graph_inventory.py -i somefile_inventory.txt -f foreman_server_name_`
+
+Note - Although optional, setting a foreman_server_name_ ensures you can uniquely refer to hostgroups when using inventory_hostgroups_and_nodes files from mulitple foreman servers... especially where some managed nodes may not be contained within a hostgroup, so appear in 'ungrouped'
 ======== END WORK IN PROGRESS
 
 ## Update inventory_vars file:

@@ -17,15 +17,17 @@ def main(argv):
 	ungroupedmatch = groupnamematch+"ungrouped\:"
 	inputfile = ""
 	outputfile = ""
-	foremanservername = ""
-	usage = 'Usage: convert_graph_inventory.py -i <output from ansible-inventory --graph> [-f <foremanservername>] [-o <outputfile>]'
+	outputlines = []
+	formatoutput = ""
+	uniqueref = ""
+	usage = 'Usage: convert_graph_inventory.py -i <output from ansible-inventory --graph> [-u <unique ref, e.g. foremanservername>] [-o <outputfile>] [-f <format> default yaml or ini]'
 	
 	# Check args
 	if len(sys.argv) <2:
 		print usage
 		exit(1)
 	try:
-		opts, args = getopt.getopt(argv,"h:i:o:f:",["ifile=","ofile=","foremanserver"])
+		opts, args = getopt.getopt(argv,"h:i:o:u:f:",["ifile=","ofile=","uniqueref","formatoutput"])
 	except getopt.GetoptError:
 		print usage
 		sys.exit(2)
@@ -37,8 +39,10 @@ def main(argv):
 			inputfile = arg
 		elif opt in ("-o", "--ofile"):
 			outputfile = arg
-		elif opt in ("-f", "--foremanserver"):
-			foremanservername = arg
+		elif opt in ("-u", "--uniqueref"):
+			uniqueref = arg
+		elif opt in ("-f", "--formatoutput"):
+			formatoutput = arg
 
 	# Load inputfile into listin
         try:
@@ -57,7 +61,7 @@ def main(argv):
 		if header:
 			line = re.sub(headermatch,"",line)
         		line = re.sub(r"(.*)","---",line)
-			print(line)
+			outputlines.append(line)
 
         	# Process groupname
         	groupname = re.match(groupnamematch,line)
@@ -68,16 +72,25 @@ def main(argv):
 				line = re.sub(r"(.*)","foreman_ungrouped:",line)
 			line = re.sub(groupnamematch,"",line)
 			line = re.sub(r"(.*)","  \g<1>",line)
-			line = re.sub("foreman_",foremanservername+"_",line)
-        	        print(line)
-        	        print("    hosts:")
+			line = re.sub("foreman_",uniqueref+"_",line)
+        	        outputlines.append(line)
+        	        outputlines.append("    hosts:")
 
         	# Process managednode name
         	managednode = re.match(managednodematch,line)
         	if managednode:
 			line = re.sub(managednodematch,"",line)
         	        line = re.sub(r"(.*)","      \g<1>:",line)
-        	        print(line)
+        	        outputlines.append(line)
+	# Ouput to screen or file
+	if outputfile == "":
+		for line in list(outputlines):
+			print(line)
+	else:
+		f = open(outputfile,"w")
+		for line in list(outputlines):
+			f.write(line+"\n")
+		f.close()
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
