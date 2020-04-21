@@ -14,12 +14,12 @@ If later on, you intend to use inventories from multiple foreman servers make su
 
 Next run:
 
-ansible-inventory -i ./your_foreman_foreman.yaml --graph --output somefile_inventory.txt
+`ansible-inventory -i ./your_foreman_foreman.yaml --graph --output somefile_inventory.txt`
 
 ## Create ansible inventory file ready to use:
 Next, use the converter to create a yaml (or ini) inventory file:
 
-./convert_graph_inventory.py -i somefile_inventory.txt -f foremantest
+`./convert_graph_inventory.py -i somefile_inventory.txt -f foremantest`
 
 ## Edit inventory vars file to suite:
 Copy and edit supplied inventory_vars files - e.g. set appropriate variable names and values, plus hostgroup names (depending on inventory_hostgroups_and_nodes file)
@@ -27,5 +27,5 @@ Copy and edit supplied inventory_vars files - e.g. set appropriate variable name
 ## Copy and edit playbook file to suite:
 You can guess the rest! - a basic playbook has been supplied which includes an example of how to refer to variables held in inventory files. To run the demo playbook, use:
 
-ansible-playbook -i -i ./inventory_hostgroups_and_nodes -i ./inventory_vars playbooks/multi_inventory_playbook_test.yaml -u root --ask-pass
+`ansible-playbook -i -i ./inventory_hostgroups_and_nodes -i ./inventory_vars playbooks/multi_inventory_playbook_test.yaml -u root --ask-pass`
 
